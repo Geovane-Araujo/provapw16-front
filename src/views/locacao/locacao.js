@@ -47,7 +47,7 @@ export default {
       this.showModal = true
     },
     onGet(){
-      axios.get(new Utils().url + 'locacao/getAll', this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      axios.get(new Utils().url + 'locacao/getAll', { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         if(res.data instanceof Array)
           this.itens = res.data
         else
@@ -62,7 +62,7 @@ export default {
       })
     },
     onGetCliente(){
-      axios.get(new Utils().url + 'cliente/getAll', this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      axios.get(new Utils().url + 'cliente/getAll',  { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         if(res.data instanceof Array)
           this.clientes = res.data
         else
@@ -74,7 +74,7 @@ export default {
     },
     onGetById(id){
       console.log(id)
-      axios.get(new Utils().url + 'locacao/getByID/'+ id , this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      axios.get(new Utils().url + 'locacao/getByID/'+ id , { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         this.form = res.data
         this.cliente.id = this.form.idcliente;
         this.cliente.nome = this.form.nome;

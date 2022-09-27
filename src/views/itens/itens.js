@@ -34,7 +34,7 @@ export default {
       this.showModal = true
     },
     onGet(){
-      axios.get(new Utils().url + 'itens/getAll', this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      axios.get(new Utils().url + 'itens/getAll', { headers: { authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         if(res.data instanceof Array)
           this.itens = res.data
         else
@@ -45,8 +45,13 @@ export default {
       })
     },
     onGetById(id){
-      console.log(id)
-      axios.get(new Utils().url + 'itens/getByID/'+ id , this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      console.log(sessionStorage.getItem("token"))
+      var config = {
+        headers: {
+          Authorization: 'Bearer ' + sessionStorage.getItem("token")
+        }
+      }
+      axios.get(new Utils().url + 'itens/getByID/'+ id , config).then(res => {
         this.form = res.data
         this.showModal = true;
       }).catch(err => {
