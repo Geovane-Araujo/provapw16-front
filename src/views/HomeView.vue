@@ -54,5 +54,6 @@ export default {
 .router{
   height: 100%;
   width: 85%;
+  overflow: auto;
 }
 </style>

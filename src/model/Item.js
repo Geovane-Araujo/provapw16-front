@@ -1,4 +1,4 @@
-export class Itens{
+export class Item{
 
   id = '';
 

@@ -4,9 +4,13 @@ export class LocacaoItem{
 
   descricao = "";
 
-  idItem = "";
+  iditem = "";
 
-  idItem = "";
+  quantidade = "";
 
   valor = 0;
+
+  idlocacao = "";
+
+  total = 0;
 }

@@ -3,17 +3,18 @@ import Password from 'primevue/password';
 import Button from 'primevue/button';
 import axios from 'axios';
 import { Utils } from '@/model/utils';
-import { Itens } from '@/model/Itens';
+import { Item } from '@/model/Item';
 import Dialog from 'primevue/dialog';
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import InputNumber from 'primevue/inputnumber';
 
 export default {
   data() {
     return {
       previewImage: '',
       showModal: false,
-      form: new Itens(),
+      form: new Item(),
       itens: []
     }
   },
@@ -22,7 +23,7 @@ export default {
   },
   methods: {
     onSave(){
-      axios.post(new Utils().url + 'itens/save', this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      axios.post(new Utils().url + 'item/save', this.form, { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         alert("salvo com sucesso")
         this.showModal = false;
         this.onGet();
@@ -34,7 +35,7 @@ export default {
       this.showModal = true
     },
     onGet(){
-      axios.get(new Utils().url + 'itens/getAll', { headers: { authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+      axios.get(new Utils().url + 'item/getAll', { headers: { authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         if(res.data instanceof Array)
           this.itens = res.data
         else
@@ -51,7 +52,7 @@ export default {
           Authorization: 'Bearer ' + sessionStorage.getItem("token")
         }
       }
-      axios.get(new Utils().url + 'itens/getByID/'+ id , config).then(res => {
+      axios.get(new Utils().url + 'item/getByID/'+ id , config).then(res => {
         this.form = res.data
         this.showModal = true;
       }).catch(err => {
@@ -83,6 +84,7 @@ export default {
     Button,
     Dialog,
     DataTable,
-    Column
+    Column,
+    InputNumber
   }
 }

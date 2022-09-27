@@ -49,8 +49,8 @@
             </div>
             <div class="p-fluid inputs input-fields">
               <span class="p-float-label">
-                <InputText id="username" type="text" v-model="form.valor" />
-                <label for="username">Valor</label>
+                <InputNumber mode="decimal" :minFractionDigits="2" id="username" type="text" v-model="form.valor" />
+                <label  for="username">Valor</label>
               </span>
             </div>
           </div>

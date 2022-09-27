@@ -12,6 +12,9 @@ import Dropdown from 'primevue/dropdown';
 import { Cliente } from '@/model/Cliente';
 import Calendar from 'primevue/calendar';
 import { Locacao } from '@/model/Locacao';
+import { Item } from '@/model/Item';
+import { LocacaoItem } from '@/model/LocacaoItem';
+import InputNumber from 'primevue/inputnumber';
 
 export default {
   data() {
@@ -21,14 +24,41 @@ export default {
       form: new Locacao(),
       itens: [],
       cliente: new Cliente(),
-      clientes: []
+      clientes: [],
+      produtos: [],
+      produto: new Item(),
+      quantidade: 0
     }
   },
   mounted() {
     this.onGetCliente();
     this.onGet();
+    this.onGetItens();
   },
   methods: {
+    onAdd(){
+      if(this.verifyDuplicate(this.produto.id)){
+        var item = new LocacaoItem();
+        item.descricao = this.produto.descricao;
+        item.valor = this.produto.valor;
+        item.quantidade = this.quantidade
+        item.iditem = this.produto.id;
+        item.total = (item.quantidade * item.valor);
+        this.form.itensLocacao.push(item);
+      } else{
+        alert('Produdo ja contem na lista')
+      }
+    },
+    verifyDuplicate(id){
+      var contem = this.form.itensLocacao.filter(item => item.iditem === id);
+      if(contem.length > 0)
+        return false;
+      else
+        return true;
+    },
+    onRemove(idite){
+      this.form.itensLocacao = this.form.itensLocacao.filter(item => item.iditem !== idite);
+    },
     onPrepareData(){
       this.form.idCliente = this.cliente.id;
       this.form.nomecliente = this.cliente.nome;
@@ -72,13 +102,26 @@ export default {
         alert(err);
       })
     },
+    onGetItens(){
+      axios.get(new Utils().url + 'item/getAll',  { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
+        if(res.data instanceof Array)
+          this.produtos = res.data
+        else
+          this.produtos.push(res.data)
+
+      }).catch(err => {
+        alert(err);
+      })
+    },
     onGetById(id){
-      console.log(id)
+
       axios.get(new Utils().url + 'locacao/getByID/'+ id , { headers: { Authorization: 'Bearer ' + sessionStorage.getItem("token") } }).then(res => {
         this.form = res.data
         this.cliente.id = this.form.idcliente;
         this.cliente.nome = this.form.nome;
-        console.log(this.cliente)
+        this.form.data = moment(this.form.data).format('DD/MM/YYYY')
+        if(this.form.itensLocacao === undefined)
+          this.form.itensLocacao = []
         this.showModal = true;
         
       }).catch(err => {
@@ -112,6 +155,7 @@ export default {
     DataTable,
     Column,
     Dropdown,
-    Calendar
+    Calendar,
+    InputNumber
   }
 }

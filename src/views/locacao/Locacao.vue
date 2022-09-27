@@ -36,14 +36,27 @@
               <label for="username">Cliente</label>
               <Dropdown id="username" :filter="true" v-model="cliente" :options="clientes" optionLabel="nome"/>
           </div>
+          <div class="field col-8">
+            <label for="username">Itens</label>
+            <Dropdown id="username" :filter="true" v-model="produto" :options="produtos" optionLabel="descricao"/>
+          </div>
+          <div class="field col-2">
+            <label for="username">Quantidade</label>
+            <InputNumber id="username" type="text" v-model="quantidade" />
+          </div>
+          <div class="field col-2">
+            <label for="username" style="color:white"> .</label>
+            <Button label="Adicionar" icon="pi pi-plus" @click="onAdd()"/>
+          </div>
           <div class="field col-12">
-            <DataTable :value="[]" responsiveLayout="scroll">
+            <DataTable :value="form.itensLocacao" responsiveLayout="scroll">
             <Column field="descricao" header="Descricao"></Column>
             <Column field="quantidade" header="Quantidade"></Column>
             <Column field="valor" header="Valor"></Column>
+            <Column field="total" header="Valor Total"></Column>
             <Column header="">
               <template #body="slotProps">
-                <Button style="margin-right: 10px" label="" icon="pi pi-times" @click="onDelete(slotProps.id)" autofocus />
+                <Button  label="" icon="pi pi-times" @click="onRemove(slotProps.data.iditem)" />
               </template>
             </Column>
         </DataTable>
