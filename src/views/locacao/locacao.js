@@ -27,7 +27,8 @@ export default {
       clientes: [],
       produtos: [],
       produto: new Item(),
-      quantidade: 0
+      quantidade: 0,
+      editingRows: ''
     }
   },
   mounted() {
@@ -48,6 +49,15 @@ export default {
       } else{
         alert('Produdo ja contem na lista')
       }
+    },
+    onCellEditComplete(e){
+      this.form.itensLocacao.forEach(item => {
+        if(item.iditem = e.data.iditem){
+          item.valor = e.newData.valor;
+          item.quantidade = e.newData.quantidade;
+          item.total = (item.quantidade * item.valor);
+        }
+      })
     },
     verifyDuplicate(id){
       var contem = this.form.itensLocacao.filter(item => item.iditem === id);

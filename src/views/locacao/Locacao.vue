@@ -49,10 +49,18 @@
             <Button label="Adicionar" icon="pi pi-plus" @click="onAdd()"/>
           </div>
           <div class="field col-12">
-            <DataTable :value="form.itensLocacao" responsiveLayout="scroll">
+            <DataTable editMode="cell" @cell-edit-complete="onCellEditComplete"  :value="form.itensLocacao" responsiveLayout="scroll">
             <Column field="descricao" header="Descricao"></Column>
-            <Column field="quantidade" header="Quantidade"></Column>
-            <Column field="valor" header="Valor"></Column>
+            <Column field="quantidade" header="Quantidade">
+              <template #editor="{ data, field }">
+                  <InputNumber v-model="data[field]" />
+              </template>
+            </Column>
+            <Column field="valor" header="Valor">
+              <template #editor="{ data, field }">
+                  <InputNumber v-model="data[field]" />
+              </template>
+            </Column>
             <Column field="total" header="Valor Total"></Column>
             <Column header="">
               <template #body="slotProps">
